@@ -558,7 +558,7 @@ class NetworkScanner:
                                 matches = scan.get("scan", {}).get(ip, {}).get("osmatch", [])
                                 if matches:
                                     os_info = matches[0].get("name", "Unknown")
-                            except Exeception as e:
+                            except Exception as e:
                                 os_info = "Unknown"
                                 self.logger.error(f"OS detection failed for {ip}: {e}")
                         else:
