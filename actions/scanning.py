@@ -37,6 +37,8 @@ class NetworkScanner:
     """
     def __init__(self, shared_data):
         self.shared_data = shared_data
+        self.logger = Logger(name="scanning")   
+        self.os_detection = shared_data.features.get("os_detection", False)
         self.logger = logger
         self.displaying_csv = shared_data.displaying_csv
         self.blacklistcheck = shared_data.blacklistcheck
