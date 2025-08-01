@@ -549,6 +549,20 @@ class NetworkScanner:
                         if self.blacklistcheck and (mac in self.mac_scan_blacklist or ip in self.ip_scan_blacklist):
                             continue
                         alive = '1' if mac in alive_macs else '0'
+
+                        if self.os_detection:
+                            os_info = "Unknown" 
+                            try:
+                                nm = nmap.PortScanner()
+                                scan = nm.scan(ip, arguments='-O -Pn -F')
+                                matches = scan.get("scan", {}).get(ip, {}).get("osmatch", [])
+                                if matches:
+                                    os_info = matches[0].get("name", "Unknown")
+                            except Execption as e:
+                                os_info = "Unknown"
+                                self.logger.error(f"OS detection failed for {ip}: {e}")
+                        else:
+                           os_info = "Disabled"
                         writer.writerow([ip, hostname, alive, mac, os_info] + [str(port) if port in ports else '' for port in all_ports])
 
             self.update_netkb(netkbfile, netkb_data, alive_macs)
