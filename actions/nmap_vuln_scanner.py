@@ -73,7 +73,7 @@ class NmapVulnScanner:
             # Proceed with scanning if ports are not already scanned
             logger.info(f"Scanning {ip} on ports {','.join(ports)} for vulnerabilities with aggressivity {self.shared_data.nmap_scan_aggressivity}")
             result = subprocess.run(
-                ["nmap", self.shared_data.nmap_scan_aggressivity, "-sV", "--script", "vulners.nse", "-p", ",".join(ports), ip],
+                ["nmap", "-Pn", "-O", self.shared_data.nmap_scan_aggressivity, "-sV", "--script", "vulners.nse", "-p", ",".join(ports), ip],
                 capture_output=True, text=True
             )
             combined_result += result.stdout
