@@ -544,12 +544,12 @@ class NetworkScanner:
             with self.lock:
                 with open(csv_result_file, 'w', newline='') as file:
                     writer = csv.writer(file)
-                    writer.writerow(["IP", "Hostname", "Alive", "MAC Address"] + [str(port) for port in all_ports])
+                    writer.writerow(["IP", "Hostname", "Alive", "MAC Address", "OS"] + [str(port) for port in all_ports])
                     for ip, ports, hostname, mac in zip(ip_data.ip_list, open_ports.values(), ip_data.hostname_list, ip_data.mac_list):
                         if self.blacklistcheck and (mac in self.mac_scan_blacklist or ip in self.ip_scan_blacklist):
                             continue
                         alive = '1' if mac in alive_macs else '0'
-                        writer.writerow([ip, hostname, alive, mac] + [str(port) if port in ports else '' for port in all_ports])
+                        writer.writerow([ip, hostname, alive, mac, os_info] + [str(port) if port in ports else '' for port in all_ports])
 
             self.update_netkb(netkbfile, netkb_data, alive_macs)
 
